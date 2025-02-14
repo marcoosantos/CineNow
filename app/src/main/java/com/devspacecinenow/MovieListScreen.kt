@@ -158,7 +158,7 @@ private fun MovieListContent(
 
 
         Text(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(top = 32.dp),
             fontSize = 40.sp,
             fontWeight = FontWeight.SemiBold,
             text = "CineNow"

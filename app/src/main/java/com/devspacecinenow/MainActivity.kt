@@ -27,11 +27,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import coil.compose.AsyncImage
 import com.devspacecinenow.ui.theme.CineNowTheme
 import retrofit2.Call
@@ -44,10 +46,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             CineNowTheme {
 
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     CineNowApp()
                 }
@@ -55,6 +56,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 
 
