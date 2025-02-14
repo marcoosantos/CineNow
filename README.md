@@ -8,8 +8,7 @@ CineNow is an Android app that allows users to explore popular movies in real ti
 - Intuitive Interface: Easy navigation and a clean design for a better user experience.
 
 ## :camera_flash: Screenshots
-<img src="https://github.com/ComunidadeDevSpace/CineNow/assets/11612508/9690f66d-fb65-4cd7-82db-954473cb6c2d" width=260/> <img src="https://github.com/ComunidadeDevSpace/CineNow/assets/11612508/f8006a40-8855-4d6f-b9b9-a44a8c991fe1" width=260/>
-
+<img src="https://github.com/user-attachments/assets/b9dea3bc-85df-41ce-bcdb-43ed0cae8416" width=260/> <img src="https://github.com/user-attachments/assets/52b8dbf4-4aa1-4fd5-b835-e6e0f1c95857" width=260/>
 
 ## 🔧 Technologies used
 - 100% Kotlin
