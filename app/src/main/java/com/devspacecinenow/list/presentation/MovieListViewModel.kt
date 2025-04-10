@@ -2,10 +2,12 @@ package com.devspacecinenow.list.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.devspacecinenow.common.data.RetrofitClient
-import com.devspacecinenow.list.data.ListService
+import com.devspacecinenow.CineNowApplication
+import com.devspacecinenow.common.data.remote.RetrofitClient
+import com.devspacecinenow.list.data.remote.ListService
 import com.devspacecinenow.list.data.MovieListRepository
 import com.devspacecinenow.list.presentation.ui.MovieListUiState
 import com.devspacecinenow.list.presentation.ui.MovieUiData
@@ -43,27 +45,27 @@ class MovieListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getNowPlaying()
             if (response.isSuccess) {
-                val movies = response.getOrNull()?.results
+                val movies = response.getOrNull()
                 if (movies != null) {
                     val movieUiDataList = movies.map { movieDto ->
                         MovieUiData(
                             id = movieDto.id,
                             title = movieDto.title,
                             overview = movieDto.overview,
-                            image = movieDto.posterFullPath
+                            image = movieDto.image
                         )
                     }
                     _uiNowPlaying.value = MovieListUiState(list = movieUiDataList)
+                }
+            } else {
+                val ex = response.exceptionOrNull()
+                if (ex is UnknownHostException) {
+                    _uiNowPlaying.value = MovieListUiState(
+                        isError = true,
+                        errorMessage = "No internet connection"
+                    )
                 } else {
-                    val ex = response.exceptionOrNull()
-                    if (ex is UnknownHostException) {
-                        _uiNowPlaying.value = MovieListUiState(
-                            isError = true,
-                            errorMessage = "No internet connection"
-                        )
-                    } else {
-                        _uiNowPlaying.value = MovieListUiState(isError = true)
-                    }
+                    _uiNowPlaying.value = MovieListUiState(isError = true)
                 }
             }
         }
@@ -74,27 +76,27 @@ class MovieListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getTopRated()
             if (response.isSuccess) {
-                val movies = response.getOrNull()?.results
+                val movies = response.getOrNull()
                 if (movies != null) {
                     val movieUiDataList = movies.map { movieDto ->
                         MovieUiData(
                             id = movieDto.id,
                             title = movieDto.title,
                             overview = movieDto.overview,
-                            image = movieDto.posterFullPath
+                            image = movieDto.image
                         )
                     }
                     _uiTopRated.value = MovieListUiState(list = movieUiDataList)
+                }
+            } else {
+                val ex = response.exceptionOrNull()
+                if (ex is UnknownHostException) {
+                    _uiTopRated.value = MovieListUiState(
+                        isError = true,
+                        errorMessage = "No internet connection"
+                    )
                 } else {
-                    val ex = response.exceptionOrNull()
-                    if (ex is UnknownHostException) {
-                        _uiTopRated.value = MovieListUiState(
-                            isError = true,
-                            errorMessage = "No internet connection"
-                        )
-                    } else {
-                        _uiTopRated.value = MovieListUiState(isError = true)
-                    }
+                    _uiTopRated.value = MovieListUiState(isError = true)
                 }
             }
         }
@@ -106,27 +108,27 @@ class MovieListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getPopular()
             if (response.isSuccess) {
-                val movies = response.getOrNull()?.results
+                val movies = response.getOrNull()
                 if (movies != null) {
                     val movieUiDataList = movies.map { movieDto ->
                         MovieUiData(
                             id = movieDto.id,
                             title = movieDto.title,
                             overview = movieDto.overview,
-                            image = movieDto.posterFullPath
+                            image = movieDto.image
                         )
                     }
                     _uiPopular.value = MovieListUiState(list = movieUiDataList)
+                }
+            } else {
+                val ex = response.exceptionOrNull()
+                if (ex is UnknownHostException) {
+                    _uiPopular.value = MovieListUiState(
+                        isError = true,
+                        errorMessage = "No internet connection"
+                    )
                 } else {
-                    val ex = response.exceptionOrNull()
-                    if (ex is UnknownHostException) {
-                        _uiPopular.value = MovieListUiState(
-                            isError = true,
-                            errorMessage = "No internet connection"
-                        )
-                    } else {
-                        _uiPopular.value = MovieListUiState(isError = true)
-                    }
+                    _uiPopular.value = MovieListUiState(isError = true)
                 }
             }
         }
@@ -137,27 +139,27 @@ class MovieListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getUpcoming()
             if (response.isSuccess) {
-                val movies = response.getOrNull()?.results
+                val movies = response.getOrNull()
                 if (movies != null) {
                     val movieUiDataList = movies.map { movieDto ->
                         MovieUiData(
                             id = movieDto.id,
                             title = movieDto.title,
                             overview = movieDto.overview,
-                            image = movieDto.posterFullPath
+                            image = movieDto.image
                         )
                     }
                     _uiUpcoming.value = MovieListUiState(list = movieUiDataList)
+                }
+            } else {
+                val ex = response.exceptionOrNull()
+                if (ex is UnknownHostException) {
+                    _uiUpcoming.value = MovieListUiState(
+                        isError = true,
+                        errorMessage = "No internet connection"
+                    )
                 } else {
-                    val ex = response.exceptionOrNull()
-                    if (ex is UnknownHostException) {
-                        _uiUpcoming.value = MovieListUiState(
-                            isError = true,
-                            errorMessage = "No internet connection"
-                        )
-                    } else {
-                        _uiUpcoming.value = MovieListUiState(isError = true)
-                    }
+                    _uiUpcoming.value = MovieListUiState(isError = true)
                 }
             }
         }
@@ -172,8 +174,9 @@ class MovieListViewModel(
                 extras: CreationExtras
             ): T {
                 val listService = RetrofitClient.retrofitInstance.create(ListService::class.java)
+                val application = checkNotNull(extras[APPLICATION_KEY])
                 return MovieListViewModel(
-                    repository = MovieListRepository(listService)
+                    repository = (application as CineNowApplication).repository
                 ) as T
             }
         }
