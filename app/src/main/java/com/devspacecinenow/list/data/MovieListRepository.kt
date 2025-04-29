@@ -1,18 +1,18 @@
 package com.devspacecinenow.list.data
 
 import com.devspacecinenow.common.data.model.Movie
-import com.devspacecinenow.list.data.local.MovieListLocalDataSource
-import com.devspacecinenow.list.data.remote.MovieListRemoteDataSource
+import com.devspacecinenow.list.data.local.LocalDataSource
+import com.devspacecinenow.list.data.remote.RemoteDataSource
 
 
 class MovieListRepository(
-    private val local: MovieListLocalDataSource,
-    private val remote: MovieListRemoteDataSource,
+    private val local: LocalDataSource,
+    private val remote: RemoteDataSource,
 ) {
 
     suspend fun getNowPlaying(): Result<List<Movie>?> {
         return try {
-            val result = remote.getNowPlaying()
+            val result = remote.getNowPlayingMovies()
             if (result.isSuccess) {
                 val moviesRemote = result.getOrNull() ?: emptyList()
                 if (moviesRemote.isNotEmpty()) {
@@ -35,7 +35,7 @@ class MovieListRepository(
 
     suspend fun getTopRated(): Result<List<Movie>?> {
         return try {
-            val result = remote.getTopRated()
+            val result = remote.getTopRatedMovies()
             if (result.isSuccess) {
                 val moviesRemote = result.getOrNull() ?: emptyList()
                 if (moviesRemote.isNotEmpty()) {
@@ -58,7 +58,7 @@ class MovieListRepository(
 
     suspend fun getPopular(): Result<List<Movie>?> {
         return try {
-            val result = remote.getPopular()
+            val result = remote.getPopularMovies()
             if (result.isSuccess) {
                 val moviesRemote = result.getOrNull() ?: emptyList()
                 if (moviesRemote.isNotEmpty()) {
@@ -81,7 +81,7 @@ class MovieListRepository(
 
     suspend fun getUpcoming(): Result<List<Movie>?> {
         return try {
-            val result = remote.getUpcoming()
+            val result = remote.getUpcomingMovies()
             if (result.isSuccess) {
                 val moviesRemote = result.getOrNull() ?: emptyList()
                 if (moviesRemote.isNotEmpty()) {

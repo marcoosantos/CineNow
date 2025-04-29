@@ -6,9 +6,9 @@ import com.devspacecinenow.common.data.model.Movie
 
 class MovieListRemoteDataSource(
     private val listService: ListService
-) {
+) : RemoteDataSource {
 
-    suspend fun getNowPlaying(): Result<List<Movie>?> {
+    override suspend fun getNowPlayingMovies(): Result<List<Movie>?> {
         return try {
             val response = listService.getNowPlayingMovies()
             if (response.isSuccessful) {
@@ -31,7 +31,7 @@ class MovieListRemoteDataSource(
         }
     }
 
-    suspend fun getTopRated(): Result<List<Movie>?> {
+    override suspend fun getTopRatedMovies(): Result<List<Movie>?> {
         return try {
             val response = listService.getTopRatedMovies()
             if (response.isSuccessful) {
@@ -54,7 +54,7 @@ class MovieListRemoteDataSource(
         }
     }
 
-    suspend fun getPopular(): Result<List<Movie>?> {
+    override suspend fun getPopularMovies(): Result<List<Movie>?> {
         return try {
             val response = listService.getPopularMovies()
             if (response.isSuccessful) {
@@ -77,7 +77,7 @@ class MovieListRemoteDataSource(
         }
     }
 
-    suspend fun getUpcoming(): Result<List<Movie>?> {
+    override suspend fun getUpcomingMovies(): Result<List<Movie>?> {
         return try {
             val response = listService.getUpcomingMovies()
             if (response.isSuccessful) {
@@ -99,5 +99,4 @@ class MovieListRemoteDataSource(
             Result.failure(ex)
         }
     }
-
 }
