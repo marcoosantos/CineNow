@@ -22,6 +22,7 @@ CineNow is an Android app that allows users to explore popular movies in real ti
   - NavHostController
   - AsyncImage
 - Room DataBase
+- DI - Dependency Injection
 - Unit Testing
 - Fakes
 - Offline first
